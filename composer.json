@@ -41,6 +41,10 @@
         "guzzlehttp/guzzle": "6.3.0",
         "kitetail/zttp": "v0.3.0"
     },
+    "require-dev": {
+        "barryvdh/laravel-ide-helper": "2.4.*",
+        "barryvdh/laravel-debugbar": "v3.1.0"
+    },
     "extra": {
         "laravel": {
             "providers": [
