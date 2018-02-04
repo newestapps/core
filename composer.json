@@ -1,7 +1,7 @@
 {
-    "name": "newestapps/package-kit",
+    "name": "newestapps/core",
     "version": "1.0.0",
-    "description": "Newestapps Package development kit",
+    "description": "Newestapps Core",
     "homepage": "https://newestapps.com.br",
     "license": "proprietary",
     "minimum-stability": "dev",
@@ -21,11 +21,11 @@
         }
     ],
     "support": {
-        "email" : "contato@newestapps.com.br"
+        "email": "contato@newestapps.com.br"
     },
     "autoload": {
         "psr-4": {
-            "Newestapps\\Package\\": "./src/"
+            "Newestapps\\Core\\": "./src/"
         },
         "files": [],
         "classmap": [
@@ -36,12 +36,15 @@
     "require": {
         "php": ">=7.1.0",
         "laravel/framework": "5.5.*",
-        "newestapps/core": "dev-master"
+        "myclabs/php-enum": "1.5.2",
+        "prettus/l5-repository": "2.6.32",
+        "guzzlehttp/guzzle": "6.3.0",
+        "kitetail/zttp": "v0.3.0"
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Newestapps\\Package\\Providers\\PackageServiceProvicer"
+                "Newestapps\\Core\\Providers\\CoreServiceProvider"
             ],
             "aliases": {
             }
