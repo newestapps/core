@@ -1,10 +1,6 @@
 <?php
-/**
- * Created by rodrigobrun
- *   with PhpStorm
- */
 
-namespace Newestapps\Core\Provider;
+namespace Newestapps\Core\Providers;
 
 use Illuminate\Database\Eloquent\Factory;
 use Illuminate\Support\Facades\Route;
