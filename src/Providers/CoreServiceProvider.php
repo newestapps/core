@@ -34,6 +34,11 @@ class CoreServiceProvider extends ServiceProvider
             __DIR__.'/../../config/nw.php' => config_path('nw.php'),
         ], 'config');
 
+        // Data structure version
+        $this->app->singleton('X-NW-VERSION', function(){
+            return '1.0.0';
+        });
+
 //        $this->registerRoutes();
     }
 
