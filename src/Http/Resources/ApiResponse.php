@@ -2,6 +2,7 @@
 
 namespace Newestapps\Core\Http\Resources;
 
+use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\Resource;
 use Illuminate\Validation\Validator;
 
@@ -15,6 +16,10 @@ class ApiResponse extends Resource
      * @var null
      */
     private $message;
+    /**
+     * @var array
+     */
+    private $_links;
 
     /**
      * ApiResponse constructor.
@@ -22,9 +27,14 @@ class ApiResponse extends Resource
      * @param mixed $resource
      * @param null $message
      * @param int $statusCode
+     * @param array $_links
      */
-    public function __construct($resource, $message = null, $statusCode = 200)
+    public function __construct($resource, $message = null, $statusCode = 200, array $_links = [])
     {
+        if($resource === null){
+            $resource = collect(null);
+        }
+
         parent::__construct($resource);
 
         if ($resource instanceof Validator) {
@@ -42,6 +52,7 @@ class ApiResponse extends Resource
         }
 
         $this->message = $message;
+        $this->_links = $_links;
     }
 
     /**
@@ -56,7 +67,11 @@ class ApiResponse extends Resource
         return [
             'success' => ($this->statusCode == 200 || $this->statusCode == 201),
             'message' => $this->message,
+            '_links' => array_merge([
+                '_self' => $request->fullUrl(),
+            ], $this->_links),
             'data' => parent::toArray($request),
+            'timestamp' => Carbon::now(config('app.timezone'))->timestamp,
         ];
     }
 
