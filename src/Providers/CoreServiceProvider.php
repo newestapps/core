@@ -5,6 +5,9 @@ namespace Newestapps\Core\Providers;
 use Illuminate\Database\Eloquent\Factory;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Newestapps\Core\Facades\Newestapps;
+use Newestapps\Core\Services\NewestappsService;
+use Overtrue\LaravelLang\Commands\Publish;
 
 class CoreServiceProvider extends ServiceProvider
 {
@@ -34,10 +37,15 @@ class CoreServiceProvider extends ServiceProvider
             __DIR__.'/../../config/nw.php' => config_path('nw.php'),
         ], 'config');
 
+        // Overtrue language publisher
+        $this->commands(Publish::class);
+
         // Data structure version
-        $this->app->singleton('X-NW-VERSION', function(){
+        $this->app->singleton('X-NW-VERSION', function () {
             return '1.0.0';
         });
+
+        $this->app->singleton('nw-core', NewestappsService::class);
 
 //        $this->registerRoutes();
     }

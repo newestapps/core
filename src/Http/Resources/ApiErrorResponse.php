@@ -5,23 +5,10 @@ namespace Newestapps\Core\Http\Resources;
 use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\Resource;
 use Illuminate\Validation\Validator;
+use Prettus\Validator\Exceptions\ValidatorException;
 
-class ApiResponse extends Resource
+class ApiErrorResponse extends ApiResponse
 {
-    /**
-     * @var int
-     */
-    protected $statusCode;
-
-    /**
-     * @var null
-     */
-    protected $message;
-
-    /**
-     * @var array
-     */
-    private $_links;
 
     /**
      * ApiResponse constructor.
@@ -29,11 +16,10 @@ class ApiResponse extends Resource
      * @param mixed $resource
      * @param null $message
      * @param int $statusCode
-     * @param array $_links
      */
-    public function __construct($resource, $message = null, $statusCode = 200, array $_links = [])
+    public function __construct($resource, $message = null, $statusCode = 400)
     {
-        if($resource === null){
+        if ($resource === null) {
             $resource = collect(null);
         }
 
@@ -45,16 +31,22 @@ class ApiResponse extends Resource
             if (empty($message)) {
                 $message = 'Falha ao processar sua solicitação';
             }
+        } elseif ($resource instanceof ValidatorException) {
+            $this->statusCode = 400;
+            $this->resource = $resource->getMessageBag();
+            if (empty($message)) {
+                $message = 'Falha ao processar sua solicitação';
+            }
         } else {
+            $this->resource = $resource;
             $this->statusCode = $statusCode;
 
             if (empty($message)) {
-                $message = 'Sucesso';
+                $message = '';
             }
         }
 
         $this->message = $message;
-        $this->_links = $_links;
     }
 
     /**
@@ -68,26 +60,10 @@ class ApiResponse extends Resource
     ) {
         return [
             'message' => $this->message,
-            'data' => parent::toArray($request),
-            '_links' => array_merge([
-                '_self' => $request->fullUrl(),
-            ], $this->_links),
+            'data' => [
+                'errors' => $this->resource,
+            ],
         ];
-    }
-
-    /**
-     * Customize the outgoing response for the resource.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param \Illuminate\Http\JsonResponse $response
-     * @return void
-     */
-    public function withResponse(
-        $request,
-        $response
-    ) {
-        $response->header('X-NW-VERSION', app('X-NW-VERSION'));
-        $response->setStatusCode($this->statusCode);
     }
 
 }
