@@ -4,6 +4,7 @@ namespace Newestapps\Core\Http\Resources;
 
 use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\Resource;
+use Illuminate\Support\Collection;
 use Illuminate\Validation\Validator;
 
 class ApiResponse extends Resource
@@ -33,11 +34,12 @@ class ApiResponse extends Resource
      */
     public function __construct($resource, $message = null, $statusCode = 200, array $_links = [])
     {
-        if($resource === null){
+        if ($resource === null) {
             $resource = collect(null);
         }
 
         parent::__construct($resource);
+        $this->statusCode = $statusCode;
 
         if ($resource instanceof Validator) {
             $this->statusCode = 400;
@@ -45,12 +47,16 @@ class ApiResponse extends Resource
             if (empty($message)) {
                 $message = 'Falha ao processar sua solicitação';
             }
-        } else {
-            $this->statusCode = $statusCode;
+        } elseif ($resource instanceof Collection || $resource instanceof \Illuminate\Database\Eloquent\Collection) {
+            $this->resource = $resource->toArray();
+        } elseif (is_array($resource)) {
+            $this->resource = $resource;
+        } elseif (is_object($resource) || $resource instanceof \stdClass) {
+            $this->resource = collect($resource);
+        }
 
-            if (empty($message)) {
-                $message = 'Sucesso';
-            }
+        if (empty($message)) {
+            $message = 'OK';
         }
 
         $this->message = $message;

@@ -27,7 +27,9 @@
         "psr-4": {
             "Newestapps\\Core\\": "./src/"
         },
-        "files": [],
+        "files": [
+            "./src/Helpers/string.php"
+        ],
         "classmap": [
             "database/migrations",
             "database/seeds"
