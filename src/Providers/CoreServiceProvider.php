@@ -3,9 +3,7 @@
 namespace Newestapps\Core\Providers;
 
 use Illuminate\Database\Eloquent\Factory;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
-use Newestapps\Core\Facades\Newestapps;
 use Newestapps\Core\Services\NewestappsService;
 use Overtrue\LaravelLang\Commands\Publish;
 
