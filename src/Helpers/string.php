@@ -13,6 +13,21 @@ if (!function_exists('str_onlyASCII')) {
 
 }
 
+if (!function_exists('str_onlyDigits')) {
+
+    /**
+     * @param $input
+     * @return string
+     */
+    function str_onlyDigits($input)
+    {
+        preg_match_all('/\d+/', $input, $matches);
+
+        return implode('', $matches[0]);
+    }
+
+}
+
 if (!function_exists('str_searchable')) {
 
     /**
