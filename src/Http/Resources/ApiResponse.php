@@ -50,7 +50,7 @@ class ApiResponse extends Resource
         } elseif ($resource instanceof Collection || $resource instanceof \Illuminate\Database\Eloquent\Collection) {
             $this->resource = $resource->toArray();
         } elseif (is_array($resource)) {
-            $this->resource = $resource;
+            $this->resource = collect($resource);
         } elseif (is_object($resource) || $resource instanceof \stdClass) {
             $this->resource = collect($resource);
         }
