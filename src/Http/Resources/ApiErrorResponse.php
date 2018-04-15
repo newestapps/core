@@ -38,7 +38,7 @@ class ApiErrorResponse extends ApiResponse
                 $message = 'Falha ao processar sua solicitação';
             }
         } else {
-            $this->resource = $resource;
+            $this->resource = collect($resource);
             $this->statusCode = $statusCode;
 
             if (empty($message)) {
