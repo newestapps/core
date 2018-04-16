@@ -4,6 +4,7 @@ namespace Newestapps\Core\Providers;
 
 use Illuminate\Database\Eloquent\Factory;
 use Illuminate\Support\ServiceProvider;
+use League\Fractal\Manager;
 use Newestapps\Core\Services\NewestappsService;
 use Overtrue\LaravelLang\Commands\Publish;
 
@@ -45,7 +46,9 @@ class CoreServiceProvider extends ServiceProvider
 
         $this->app->singleton('nw-core', NewestappsService::class);
 
-//        $this->registerRoutes();
+        $this->app->singleton(Manager::class, function () {
+            return new Manager();
+        });
     }
 
     private function registerRoutes()
