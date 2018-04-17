@@ -25,14 +25,20 @@ class ManagedController extends Controller
      */
     public function __construct()
     {
-        if (request()->wantsJson()) {
+        $request = request();
+        if ($request->wantsJson()) {
             $this->manager = app(Manager::class);
 
-            if (request()->has('include') && !empty(request()->get('include', null))) {
-                $include = request()->get('include', null);
+            if ($request->has('include') && !empty($request->get('include', null))) {
+                $include = $request->get('include', null);
                 $this->manager->parseIncludes($include);
             }
         }
+    }
+
+    public function getRules()
+    {
+        return [];
     }
 
     public function itemResponse(

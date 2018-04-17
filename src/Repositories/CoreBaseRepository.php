@@ -11,6 +11,11 @@ use Prettus\Repository\Eloquent\BaseRepository;
 abstract class CoreBaseRepository extends BaseRepository
 {
 
+    /**
+     * Validation rules for this repository
+     *
+     * @return array
+     */
     abstract function getRules();
 
     public function validator()
